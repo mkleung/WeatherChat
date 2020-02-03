@@ -11,4 +11,9 @@
     <string name="editText">Tapez ici</string>
 
     <string name="toast_message">Voici plus d\'informations</string>
+    <string name="checkbox_text">La case à cocher est </string>
+    <string name="switch_text">Le commutateur est </string>
+    <string name="undo_message">Annuler</string>
+    <string name="on_message">allumée</string>
+    <string name="off_message">éteinte</string>
 </resources>

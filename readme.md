@@ -21,3 +21,18 @@ show you how the Java files integrate with XML files to build your application
 The goal of this lab is become familiar with how XML and Java are combined for creating user
 interfaces. The layouts and widgets are created in XML, and Java then gets references to the
 objects created in XML to control the behavior of the application
+
+
+*Error importing Snackbar*
+
+add below dependency in your build.gradle
+```bash
+implementation 'com.android.support:design:27.1.1'
+```
+
+Than Clean - Re-Build - Run your project
+
+*Error: Java “lambda expressions not supported at this language level”*
+
+For Android 3.0+ Go File → Project Structure → Module → app
+nd In Properties Tab set Source Compatibility and Target Compatibility to 1.8 (Java 8)

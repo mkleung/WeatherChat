@@ -30,23 +30,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Step 5
+        String on_message = getString(R.string.on_message);
+        String off_message = getString(R.string.off_message);
+        String undo_message = getString(R.string.undo_message);
+
         CheckBox cb = findViewById(R.id.checkBox);
         cb.setOnCheckedChangeListener( (compoundButton, b) -> {
-            String snack_text = "The checkbox is ";
-            if ( b == true) { snack_text += "on"; }
-            else { snack_text += "off"; }
-            Snackbar.make(cb, snack_text, Snackbar.LENGTH_LONG)
-                    .setAction("Undo", click-> cb.setChecked( !b ))
+            String checkbox_text = getString(R.string.checkbox_text);
+            if ( b == true) { checkbox_text = checkbox_text + " " + on_message; }
+            else { checkbox_text = checkbox_text + " " + off_message; }
+            Snackbar.make(cb, checkbox_text, Snackbar.LENGTH_LONG)
+                    .setAction(undo_message, click-> cb.setChecked( !b ))
                     .show();
         });
 
         Switch sw = findViewById(R.id.switch1);
         sw.setOnCheckedChangeListener( (compoundButton, b) -> {
-            String snack_text = "The switch is ";
-            if ( b == true) { snack_text += "on"; }
-            else { snack_text += "off"; }
-            Snackbar.make(sw, snack_text, Snackbar.LENGTH_LONG)
-                    .setAction("Undo", click-> cb.setChecked( !b ))
+            String switch_text = getString(R.string.switch_text);
+            if ( b == true) { switch_text = switch_text + " " + on_message; }
+            else { switch_text = switch_text + " " + off_message; }
+            Snackbar.make(sw, switch_text, Snackbar.LENGTH_LONG)
+                    .setAction(undo_message, click-> cb.setChecked( !b ))
                     .show();
         });
 
