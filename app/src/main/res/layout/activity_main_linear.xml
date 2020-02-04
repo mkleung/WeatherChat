@@ -63,7 +63,7 @@
             android:text="@string/switchText"
             android:layout_weight="1"
             android:gravity="fill"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             />
 
     </LinearLayout>

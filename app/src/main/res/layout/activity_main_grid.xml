@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:columnCount="2"
+    android:rowCount="4"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="fill"
+    >
+
+
+    <TextView
+        android:text="@string/titleText"
+        android:textSize="30dp"
+        android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
+        />
+
+
+    <Button
+        android:layout_gravity="fill_horizontal"
+        android:id="@+id/button2"
+        android:text="@string/button2Text"
+        />
+
+    <CheckBox
+        android:layout_gravity="fill_horizontal"
+        android:id="@+id/checkBox"
+        android:text="@string/checkboxText"
+
+        />
+
+    <ImageButton
+        android:layout_gravity="fill_horizontal"
+        android:id="@+id/imageButton"
+        app:srcCompat="@drawable/flag"
+        />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:text="@string/switchText"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginLeft="5dp"
+        />
+
+    <EditText
+        android:id="@+id/editText"
+        android:ems="10"
+        android:text="@string/editText"
+        android:inputType="textPersonName|textCapWords"
+        android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
+    />
+
+
+</GridLayout>
