@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <TextView
         android:id="@+id/text1"
         android:text="@string/titleText"
@@ -12,8 +11,8 @@
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         />
-
 
     <Button
         android:id="@+id/button2"
@@ -21,7 +20,6 @@
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text1"
-
         />
 
     <CheckBox
@@ -47,7 +45,6 @@
         android:id="@+id/switch1"
         android:text="@string/switchText"
         android:layout_gravity="fill_horizontal"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

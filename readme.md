@@ -23,16 +23,16 @@ interfaces. The layouts and widgets are created in XML, and Java then gets refer
 objects created in XML to control the behavior of the application
 
 
-*Error importing Snackbar*
+**Error importing Snackbar**
 
 add below dependency in your build.gradle
 ```bash
 implementation 'com.android.support:design:27.1.1'
 ```
 
-Than Clean - Re-Build - Run your project
+Than Build > Clean Project,  then Re-Build Project
 
-*Error: Java “lambda expressions not supported at this language level”*
+**Error: Java “lambda expressions not supported at this language level”**
 
-For Android 3.0+ Go File → Project Structure → Module → app
-nd In Properties Tab set Source Compatibility and Target Compatibility to 1.8 (Java 8)
+For Android 3.0+ Go File > Project Structure > Module > app
+and In Properties Tab set Source Compatibility and Target Compatibility to 1.8 (Java 8)
