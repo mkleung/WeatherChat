@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/profileText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your profile" />
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your name:" />
+
+    <EditText
+        android:id="@+id/nameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter your name" />
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your email:" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Enter your email" />
+
+    <TextView
+        android:id="@+id/pictureLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your picture:" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/picture_frame" />
+
+    <TextView
+        android:id="@+id/hintLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click the button to take a picture" />
+
+
+</LinearLayout>
