@@ -60,5 +60,17 @@
         android:layout_height="wrap_content"
         android:text="Click the button to take a picture" />
 
+    <Button
+        android:id="@+id/loadButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Load Data" />
+
+    <Button
+        android:id="@+id/previousButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Previous" />
+
 
 </LinearLayout>

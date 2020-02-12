@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Type email here"/>
+        android:hint="Type email here"/>
 
     <TextView
         android:id="@+id/passwordLabel"
@@ -29,12 +29,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="password"/>
+        android:hint="password"/>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
+
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Profile" />
 
 </LinearLayout>
