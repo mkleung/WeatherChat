@@ -2,83 +2,111 @@ package com.example.androidlabs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ImageButton mImageButton;
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final String ACTIVITY_NAME = "PROFILE_ACTIVITY";
 
-    EditText emailText;
-    Button loadButton;
-    Button previousButton;
 
-    public static final String DEFAULT="N/A";
-
-    ImageButton mImageButton;
+    private File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        emailText = (EditText)findViewById(R.id.emailText);
-
-
-        // Load Button
-        loadButton = (Button) findViewById(R.id.loadButton);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-                String email = sharedPreferences.getString("email",DEFAULT);
-
-                if (email.equals(DEFAULT)) {
-                    Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Data loaded successfully", Toast.LENGTH_LONG).show();
-                    emailText.setText(email);
-                }
-            }
-        });
-
-        // Previous Button
-        previousButton = (Button) findViewById(R.id.previousButton);
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
         Log.e(ACTIVITY_NAME, "In function: onCreate");
+
+
+
+        // Take picture
+        mImageButton = (ImageButton) findViewById(R.id.imageButton2);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Camera ", Toast.LENGTH_LONG).show();
+
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                imageFile=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "test.jpg"  );
+                Uri tempuri = Uri.fromFile(imageFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempuri);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE );
+                }
+
+            }
+        });
+
     }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    if (imageFile.exists()) {
+
+                        Toast.makeText(getApplicationContext(), "Image saved on " + imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
+
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                        mImageButton.setImageBitmap(myBitmap);
+
+                        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                        imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
+                default: break;
+            }
+        }
+    }
+
+
 
 //    private void dispatchTakePictureIntent() {
 //        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageMananger()) != null) {
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 //            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 //        }
 //    }
-//
+
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -88,6 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
 //            mImageButton.setImageBitmap(imageBitmap);
 //        }
 //    }
+
 
 
     @Override

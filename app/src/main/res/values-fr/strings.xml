@@ -16,4 +16,20 @@
     <string name="undo_message">Annuler</string>
     <string name="on_message">allumée</string>
     <string name="off_message">éteinte</string>
+
+    <!-- Lab 3 -->
+    <string name="emailLabel">Entrez votre adresse courriel:</string>
+    <string name="emailText">Entrez votre adresse courriel ici</string>
+    <string name="passwordLabel">Tapez votre mot de passe:</string>
+    <string name="passwordText">mot de passe</string>
+    <string name="loginButton">Connexion</string>
+
+    <string name="profileText">Votre profil</string>
+    <string name="nameLabel">Votre nom:</string>
+    <string name="nameText">Entrez votre nom</string>
+    <string name="emailLabel2">Votre adresse courriel</string>
+    <string name="emailText2">Entrez votre adresse courriel</string>
+    <string name="pictureLabel">Votre image:</string>
+    <string name="hintLabel">Cliquez sur le bouton pour prendre une photo</string>
+
 </resources>

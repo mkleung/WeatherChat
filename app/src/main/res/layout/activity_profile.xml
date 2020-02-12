@@ -12,13 +12,13 @@
         android:id="@+id/profileText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your profile" />
+        android:text="@string/profileText" />
 
     <TextView
         android:id="@+id/nameLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your name:" />
+        android:text="@string/nameLabel" />
 
     <EditText
         android:id="@+id/nameText"
@@ -26,27 +26,27 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Enter your name" />
+        android:text="@string/nameText" />
 
     <TextView
-        android:id="@+id/emailLabel"
+        android:id="@+id/emailLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your email:" />
+        android:text="@string/emailLabel2" />
 
     <EditText
-        android:id="@+id/emailText"
+        android:id="@+id/emailText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Enter your email" />
+        android:text="@string/emailText2" />
 
     <TextView
         android:id="@+id/pictureLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your picture:" />
+        android:text="@string/pictureLabel" />
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -58,19 +58,13 @@
         android:id="@+id/hintLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click the button to take a picture" />
+        android:text="@string/hintLabel" />
 
-    <Button
-        android:id="@+id/loadButton"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Load Data" />
-
-    <Button
-        android:id="@+id/previousButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Previous" />
+        app:srcCompat="@drawable/flag" />
 
 
 </LinearLayout>

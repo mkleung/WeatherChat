@@ -1,8 +1,11 @@
 <resources>
+
+    <!-- Lab 1 -->
     <string name="app_name">AndroidLabs</string>
     <string name="hello_message">Hello World</string>
     <string name="ButtonText">I\’m a button</string>
 
+    <!-- Lab 2 -->
     <string name="titleText">Look at my GUI</string>
     <string name="button2Text">Click here</string>
     <string name="checkboxText">Check this out!</string>
@@ -15,4 +18,21 @@
     <string name="undo_message">Undo</string>
     <string name="on_message">On</string>
     <string name="off_message">Off</string>
+
+
+    <!-- Lab 3 -->
+    <string name="emailLabel">Enter your email address:</string>
+    <string name="emailText">Type email here</string>
+    <string name="passwordLabel">Enter your password:</string>
+    <string name="passwordText">Password</string>
+    <string name="loginButton">Login</string>
+
+    <string name="profileText">Your profile</string>
+    <string name="nameLabel">Your name:</string>
+    <string name="nameText">Enter your name</string>
+    <string name="emailLabel2">Your email:</string>
+    <string name="emailText2">Enter your email</string>
+    <string name="pictureLabel">Your picture:</string>
+    <string name="hintLabel">Click the button to take a picture</string>
+
 </resources>
