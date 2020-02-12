@@ -1,7 +1,9 @@
 package com.example.androidlabs;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -27,12 +30,8 @@ import java.io.File;
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton mImageButton;
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final String ACTIVITY_NAME = "PROFILE_ACTIVITY";
-
-
-    private File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,83 +40,30 @@ public class ProfileActivity extends AppCompatActivity {
 
         Log.e(ACTIVITY_NAME, "In function: onCreate");
 
-
-
-        // Take picture
+        //  Start Camera
         mImageButton = (ImageButton) findViewById(R.id.imageButton2);
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Camera ", Toast.LENGTH_LONG).show();
-
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                imageFile=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "test.jpg"  );
-                Uri tempuri = Uri.fromFile(imageFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempuri);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE );
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-
             }
         });
-
     }
-
-
-
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    if (imageFile.exists()) {
-
-                        Toast.makeText(getApplicationContext(), "Image saved on " + imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
-
-
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                        mImageButton.setImageBitmap(myBitmap);
-
-                        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                        imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
-
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case Activity.RESULT_CANCELED:
-                    break;
-                default: break;
+            if (resultCode == RESULT_OK) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                mImageButton.setImageBitmap(bitmap);
             }
         }
+        Log.e(ACTIVITY_NAME, "In function: onActivityResult");
     }
-
-
-
-//    private void dispatchTakePictureIntent() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
-//    }
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            mImageButton.setImageBitmap(imageBitmap);
-//        }
-//    }
-
-
 
     @Override
     protected void onStart() {
@@ -148,7 +94,4 @@ public class ProfileActivity extends AppCompatActivity {
         super.onDestroy();
         Log.e(ACTIVITY_NAME, "In function: onDestroy");
     }
-
-
-
 }

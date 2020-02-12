@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         emailText = (EditText) findViewById(R.id.emailText);
 
-
-        // Load data
+        // Load data from sharedpreferences
         sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email",DEFAULT);
         if (email.equals(DEFAULT)) {
@@ -43,25 +42,22 @@ public class MainActivity extends AppCompatActivity {
             emailText.setText(email);
         }
 
-        // Save Data
+        // Save Email in SharedPreferences
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", emailText.getText().toString());
                 editor.commit();
-                //Toast.makeText(getApplicationContext(), "Data was saved successfully ", Toast.LENGTH_SHORT).show();
 
                 // Go to profile
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
             }
         });
-
     }
-
-
 
 //    @Override
 //    protected void onPause() {
@@ -79,8 +75,5 @@ public class MainActivity extends AppCompatActivity {
 //        editor.commit();
 //        Toast.makeText(getApplicationContext(), "Data was saved successfully ", Toast.LENGTH_LONG).show();
 //    }
-
-
-
 
 }

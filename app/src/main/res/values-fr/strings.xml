@@ -21,7 +21,7 @@
     <string name="emailLabel">Entrez votre adresse courriel:</string>
     <string name="emailText">Entrez votre adresse courriel ici</string>
     <string name="passwordLabel">Tapez votre mot de passe:</string>
-    <string name="passwordText">mot de passe</string>
+    <string name="passwordText"></string>
     <string name="loginButton">Connexion</string>
 
     <string name="profileText">Votre profil</string>

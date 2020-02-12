@@ -24,7 +24,7 @@
     <string name="emailLabel">Enter your email address:</string>
     <string name="emailText">Type email here</string>
     <string name="passwordLabel">Enter your password:</string>
-    <string name="passwordText">Password</string>
+    <string name="passwordText"></string>
     <string name="loginButton">Login</string>
 
     <string name="profileText">Your profile</string>
