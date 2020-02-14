@@ -30,6 +30,7 @@ import java.io.File;
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton mImageButton;
+    private Button chatButton;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final String ACTIVITY_NAME = "PROFILE_ACTIVITY";
 
@@ -49,6 +50,16 @@ public class ProfileActivity extends AppCompatActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
+            }
+        });
+
+        // Go to Chat activity
+        chatButton = (Button) findViewById(R.id.chatButton);
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent chatIntent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+                startActivity(chatIntent);
             }
         });
     }
