@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Linear xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatRoomActivity">
+    tools:context=".ChatRoomActivity"
+    android:orientation="vertical">
 
     <ListView
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
-</Linear>
+        android:id="@+id/theListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width = "wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"/>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Type Here"/>
+
+        <Button
+            android:id="@+id/receivedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Receive">
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>
