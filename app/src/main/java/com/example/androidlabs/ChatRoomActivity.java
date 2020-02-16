@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,13 +26,41 @@ public class ChatRoomActivity extends AppCompatActivity {
     private ArrayList<String> elements = new ArrayList<>( Arrays.asList( "One", "Two" ) );
     private MyListAdapter myAdapter;
 
+    private EditText messageText;
+    private Button sendButton;
+    private Button receivedButton;
+    private String messageContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+        messageText = (EditText) findViewById(R.id.messageText);
+
+        sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageContent = messageText.getText().toString();
+                elements.add(messageContent);
+                messageText.setText("");
+            }
+        });
+
+        receivedButton = (Button) findViewById(R.id.receivedButton);
+        receivedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageContent = messageText.getText().toString();
+                elements.add(messageContent);
+                messageText.setText("");
+            }
+        });
 
 
+
+        // LIST
         ListView myList = findViewById(R.id.theListView);
         myList.setAdapter( myAdapter = new MyListAdapter());
 //        myList.setOnItemClickListener( (parent, view, pos, id) -> {
@@ -45,7 +75,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             alertDialogBuilder.setTitle("Do you want to delete this?")
 
                     //What is the message:
-                    .setMessage("The selected row is:"+pos+". The database id::"+pos)
+                    .setMessage("The selected row is:"+pos+". The database id:"+pos)
 
                     //what the Yes button does:
                     .setPositiveButton("Yes", (click, arg) -> {
