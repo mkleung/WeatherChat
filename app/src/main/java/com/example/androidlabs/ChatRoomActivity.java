@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +33,40 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         ListView myList = findViewById(R.id.theListView);
         myList.setAdapter( myAdapter = new MyListAdapter());
-        myList.setOnItemClickListener( (parent, view, pos, id) -> {
-                elements.remove(pos);
-                myAdapter.notifyDataSetChanged();
-            }
-        );
+//        myList.setOnItemClickListener( (parent, view, pos, id) -> {
+//                //elements.remove(pos);
+//                Toast.makeText(getApplicationContext(), "Row selected " + pos, Toast.LENGTH_LONG).show();
+//                myAdapter.notifyDataSetChanged();
+//            }
+//        );
+
+        myList.setOnItemLongClickListener( (p, b, pos, id) -> {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Do you want to delete this?")
+
+                    //What is the message:
+                    .setMessage("The selected row is:"+pos+". The database id::"+pos)
+
+                    //what the Yes button does:
+                    .setPositiveButton("Yes", (click, arg) -> {
+                        elements.remove(pos);
+                        myAdapter.notifyDataSetChanged();
+                    })
+                    //What the No button does:
+                    .setNegativeButton("No", (click, arg) -> { })
+
+
+                    //You can add extra layout elements:
+                    .setView(getLayoutInflater().inflate(R.layout.row_layout, null) )
+
+                    //Show the dialog
+                    .create().show();
+            return true;
+        });
+
+        //Whenever you swipe down on the list, do something:
+//        SwipeRefreshLayout refresher = findViewById(R.id.refresher);
+//        refresher.setOnRefreshListener( () -> refresher.setRefreshing(false)  );
 
 
     }
