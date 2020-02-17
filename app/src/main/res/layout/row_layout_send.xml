@@ -10,13 +10,17 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/row_receive"
-        android:layout_weight="5"/>
+        android:layout_weight="5"
+         />
+
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/textGoesHere"
-        android:layout_weight="1"/>
+        android:id="@+id/messageView"
+        android:layout_weight="1"
+       />
+
+
 
 </LinearLayout>
