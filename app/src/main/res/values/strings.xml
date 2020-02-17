@@ -19,7 +19,6 @@
     <string name="on_message">On</string>
     <string name="off_message">Off</string>
 
-
     <!-- Lab 3 -->
     <string name="emailLabel">Enter your email address:</string>
     <string name="emailText">Type email here</string>
@@ -34,5 +33,11 @@
     <string name="emailText2">Enter your email</string>
     <string name="pictureLabel">Your picture:</string>
     <string name="hintLabel">Click the button to take a picture</string>
+
+    <!-- Lab 4 -->
+    <string name="chatButton">Go to Chat</string>
+    <string name="sendButtonText">Send</string>
+    <string name="receiveButtonText">Receive</string>
+    <string name="messageHint">Type here</string>
 
 </resources>

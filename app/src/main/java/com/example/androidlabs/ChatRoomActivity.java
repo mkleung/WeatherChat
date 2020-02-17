@@ -3,10 +3,13 @@ package com.example.androidlabs;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,16 +34,11 @@ public class ChatRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-
         messages = new ArrayList<Message>();
-
         Message msg1 = new Message("Hello", false);
         Message msg2 = new Message("World", true);
         messages.add(msg1);
         messages.add(msg2);
-
-
-
 
         messageText = (EditText) findViewById(R.id.messageText);
         sendButton = (Button) findViewById(R.id.sendButton);
@@ -51,6 +49,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     messages.add( new Message(messageText.getText().toString(), true));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
+                    closeKeyboard();
                 }
             }
         });
@@ -63,11 +62,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                     messages.add( new Message(messageText.getText().toString(), false));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
+                    closeKeyboard();
                 }
             }
         });
-
-
 
         // ListView
         ListView myList = findViewById(R.id.theListView);
@@ -89,22 +87,16 @@ public class ChatRoomActivity extends AppCompatActivity {
         //Whenever you swipe down on the list, do something:
 //        SwipeRefreshLayout refresher = findViewById(R.id.refresher);
 //        refresher.setOnRefreshListener( () -> refresher.setRefreshing(false)  );
-
-
     }
-
 
     private class MessagesAdapter extends BaseAdapter{
         public int getCount() { return messages.size();}
         public Object getItem(int position) { return "This is row " + position; }
         public long getItemId(int position) { return (long) position; }
         public View getView(int position, View convertView, ViewGroup parent) {
-
             Message message = messages.get(position);
-
             int imageResource;
             int row_layout;
-
             if (message.isSender){
                 row_layout = R.layout.row_layout_send;
                 imageResource = R.drawable.row_send;
@@ -113,16 +105,23 @@ public class ChatRoomActivity extends AppCompatActivity {
                 row_layout = R.layout.row_layout_receive;
                 imageResource = R.drawable.row_receive;
             }
-
             View newView = getLayoutInflater().inflate(row_layout, parent, false);
             TextView messageView = (TextView)newView.findViewById(R.id.messageView);
             messageView.setText(message.title);
             ImageView imageView = (ImageView)newView.findViewById(R.id.imageView);
             imageView.setImageResource(imageResource);
-
             return newView;
         }
     }
 
-
+    // Close The Virtual keyboard
+    private void closeKeyboard() {
+        // current edittext
+        View view = this.getCurrentFocus();
+        // if there is a view that has focus
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }

@@ -23,7 +23,7 @@
             android:id="@+id/sendButton"
             android:layout_width = "wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"/>
+            android:text="@string/sendButtonText"/>
 
         <EditText
             android:id="@+id/messageText"
@@ -32,13 +32,13 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Type Here"/>
+            android:hint="@string/messageHint"/>
 
         <Button
             android:id="@+id/receivedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Receive">
+            android:text="@string/receiveButtonText">
         </Button>
 
     </LinearLayout>

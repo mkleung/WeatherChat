@@ -32,4 +32,10 @@
     <string name="pictureLabel">Votre image:</string>
     <string name="hintLabel">Cliquez sur le bouton pour prendre une photo</string>
 
+    <!-- Lab 4 -->
+    <string name="chatButton">Bavarder</string>
+    <string name="sendButtonText">Envoyer</string>
+    <string name="receiveButtonText">Recevoir</string>
+    <string name="messageHint">Typez ici</string>
+
 </resources>
