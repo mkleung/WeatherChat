@@ -38,4 +38,10 @@
     <string name="receiveButtonText">Recevoir</string>
     <string name="messageHint">Typez ici</string>
 
+    <string name="alert_title">Voulez-vous supprimer ceci?</string>
+    <string name="alert_yes">Oui</string>
+    <string name="alert_no">Non</string>
+    <string name="alert_description_1">La ligne sélectionnée est</string>
+    <string name="alert_description_2">et la ID de la base de données </string>
+
 </resources>
