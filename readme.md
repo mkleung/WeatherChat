@@ -8,6 +8,7 @@ git clone https://github.com/leun0090/AndroidLabs.git
 
 ### Lab/Branch 1 - Setting up
 
+Install Android studio
 
 ### Lab/Branch 2 - Layouts
 
@@ -46,3 +47,9 @@ more filename.xml
 Or
 
 Click on Device File Explorer on bottom right and navigate to /data/data/com.example.androidlabs/shared_prefs
+
+
+### Lab/Branch 4 - ListView / AlertDialog
+
+
+### Lab/Branch 5 - Database
