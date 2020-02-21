@@ -145,6 +145,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
     public void loadDataFromDatabase() {
+        DatabaseOpener dbOpener = new DatabaseOpener(this);
+        db = dbOpener.getWritableDatabase();
 
     }
 }
