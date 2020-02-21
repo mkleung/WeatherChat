@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseOpener extends SQLiteOpenHelper {
+public class DbOpener extends SQLiteOpenHelper {
 
     protected final static String DATABASE_NAME = "MessagesDB";
     protected final static int VERSION_NUM = 1;
@@ -13,7 +13,7 @@ public class DatabaseOpener extends SQLiteOpenHelper {
     public final static String COL_IS_SENDER = "IS_SENDER";
     public final static String COL_ID = "_id";
 
-    public DatabaseOpener(Context ctx)
+    public DbOpener(Context ctx)
     {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
     }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    private ArrayList<Message> messages;
+    private ArrayList<Message> messageList;
     private MessagesAdapter myAdapter;
 
     private EditText messageText;
@@ -41,11 +42,11 @@ public class ChatRoomActivity extends AppCompatActivity {
         loadDataFromDatabase(); //get any previously saved Contact objects
 
 
-        messages = new ArrayList<Message>();
-        Message msg1 = new Message("Hello", false);
-        Message msg2 = new Message("World", true);
-        messages.add(msg1);
-        messages.add(msg2);
+        messageList = new ArrayList<Message>();
+        Message msg1 = new Message(1, "Hello", false);
+        Message msg2 = new Message(2,"World", true);
+        messageList.add(msg1);
+        messageList.add(msg2);
 
         messageText = (EditText) findViewById(R.id.messageText);
         sendButton = (Button) findViewById(R.id.sendButton);
@@ -53,7 +54,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messages.add(new Message(messageText.getText().toString(), true));
+                    messageList.add(new Message(3, messageText.getText().toString(), true));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
                     closeKeyboard();
@@ -66,7 +67,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messages.add(new Message(messageText.getText().toString(), false));
+                    messageList.add(new Message(4, messageText.getText().toString(), false));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
                     closeKeyboard();
@@ -84,7 +85,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             alertDialogBuilder.setTitle(getString(R.string.alert_title))
                     .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
                     .setPositiveButton(R.string.alert_yes, (click, arg) -> {
-                        messages.remove(pos);
+                        messageList.remove(pos);
                         myAdapter.notifyDataSetChanged();
                     })
                     .setNegativeButton(R.string.alert_no, (click, arg) -> {
@@ -101,7 +102,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private class MessagesAdapter extends BaseAdapter {
         public int getCount() {
-            return messages.size();
+            return messageList.size();
         }
 
         public Object getItem(int position) {
@@ -113,7 +114,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            Message message = messages.get(position);
+            Message message = messageList.get(position);
             int imageResource;
             int row_layout;
             if (message.isSender) {
@@ -145,8 +146,32 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
     public void loadDataFromDatabase() {
-        DatabaseOpener dbOpener = new DatabaseOpener(this);
+
+        //get a database connection:
+        DbOpener dbOpener = new DbOpener(this);
         db = dbOpener.getWritableDatabase();
 
+
+        // We want to get all of the columns. Look at MyOpener.java for the definitions:
+        String [] columns = {DbOpener.COL_ID, DbOpener.COL_TITLE, DbOpener.COL_IS_SENDER};
+        //query all the results from the database:
+        Cursor results = db.query(false, DbOpener.TABLE_NAME, columns, null, null, null, null, null, null);
+
+        //Now the results object has rows of results that match the query.
+        //find the column indices:
+        int emailColumnIndex = results.getColumnIndex(DbOpener.COL_TITLE);
+        int nameColIndex = results.getColumnIndex(DbOpener.COL_IS_SENDER);
+        int idColIndex = results.getColumnIndex(DbOpener.COL_ID);
+
+        //iterate over the results, return true if there is a next item:
+        while(results.moveToNext())
+        {
+            String name = results.getString(nameColIndex);
+            String email = results.getString(emailColumnIndex);
+            long id = results.getLong(idColIndex);
+
+            //add the new Contact to the array list:
+            messageList.add(new Message(id, "Hello", false));
+        }
     }
 }
