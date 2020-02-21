@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -29,10 +30,16 @@ public class ChatRoomActivity extends AppCompatActivity {
     private Button receivedButton;
     private String messageContent;
 
+    SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+
+        // Database
+        loadDataFromDatabase(); //get any previously saved Contact objects
+
 
         messages = new ArrayList<Message>();
         Message msg1 = new Message("Hello", false);
@@ -46,7 +53,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messages.add( new Message(messageText.getText().toString(), true));
+                    messages.add(new Message(messageText.getText().toString(), true));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
                     closeKeyboard();
@@ -59,7 +66,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messages.add( new Message(messageText.getText().toString(), false));
+                    messages.add(new Message(messageText.getText().toString(), false));
                     messageText.setText("");
                     myAdapter.notifyDataSetChanged();
                     closeKeyboard();
@@ -69,19 +76,19 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         // ListView
         ListView myList = findViewById(R.id.theListView);
-        myList.setAdapter( myAdapter = new MessagesAdapter());
-        myList.setOnItemLongClickListener( (p, b, pos, id) -> {
+        myList.setAdapter(myAdapter = new MessagesAdapter());
+        myList.setOnItemLongClickListener((p, b, pos, id) -> {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 
-
-            alertDialogBuilder.setTitle( getString(R.string.alert_title))
-                    .setMessage(getString(R.string.alert_description_1)+": " + pos+ "\n" + getString(R.string.alert_description_2)+": "+pos)
+            alertDialogBuilder.setTitle(getString(R.string.alert_title))
+                    .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
                     .setPositiveButton(R.string.alert_yes, (click, arg) -> {
                         messages.remove(pos);
                         myAdapter.notifyDataSetChanged();
                     })
-                    .setNegativeButton(R.string.alert_no, (click, arg) -> { })
+                    .setNegativeButton(R.string.alert_no, (click, arg) -> {
+                    })
                     .setView(getLayoutInflater().inflate(R.layout.row_layout_receive, null))
                     .create().show();
             return true;
@@ -92,26 +99,34 @@ public class ChatRoomActivity extends AppCompatActivity {
 //        refresher.setOnRefreshListener( () -> refresher.setRefreshing(false)  );
     }
 
-    private class MessagesAdapter extends BaseAdapter{
-        public int getCount() { return messages.size();}
-        public Object getItem(int position) { return "This is row " + position; }
-        public long getItemId(int position) { return (long) position; }
+    private class MessagesAdapter extends BaseAdapter {
+        public int getCount() {
+            return messages.size();
+        }
+
+        public Object getItem(int position) {
+            return "This is row " + position;
+        }
+
+        public long getItemId(int position) {
+            return (long) position;
+        }
+
         public View getView(int position, View convertView, ViewGroup parent) {
             Message message = messages.get(position);
             int imageResource;
             int row_layout;
-            if (message.isSender){
+            if (message.isSender) {
                 row_layout = R.layout.row_layout_send;
                 imageResource = R.drawable.row_send;
-            }
-            else {
+            } else {
                 row_layout = R.layout.row_layout_receive;
                 imageResource = R.drawable.row_receive;
             }
             View newView = getLayoutInflater().inflate(row_layout, parent, false);
-            TextView messageView = (TextView)newView.findViewById(R.id.messageView);
+            TextView messageView = (TextView) newView.findViewById(R.id.messageView);
             messageView.setText(message.title);
-            ImageView imageView = (ImageView)newView.findViewById(R.id.imageView);
+            ImageView imageView = (ImageView) newView.findViewById(R.id.imageView);
             imageView.setImageResource(imageResource);
             return newView;
         }
@@ -126,5 +141,10 @@ public class ChatRoomActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    public void loadDataFromDatabase() {
+
     }
 }
