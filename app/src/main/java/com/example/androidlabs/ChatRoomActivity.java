@@ -3,6 +3,7 @@ package com.example.androidlabs;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,52 +49,93 @@ public class ChatRoomActivity extends AppCompatActivity {
         messageList.add(msg1);
         messageList.add(msg2);
 
+
         messageText = (EditText) findViewById(R.id.messageText);
         sendButton = (Button) findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messageList.add(new Message(3, messageText.getText().toString(), true));
-                    messageText.setText("");
-                    myAdapter.notifyDataSetChanged();
-                    closeKeyboard();
-                }
-            }
-        });
 
-        receivedButton = (Button) findViewById(R.id.receivedButton);
-        receivedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TextUtils.isEmpty(messageText.getText().toString())) {
-                    messageList.add(new Message(4, messageText.getText().toString(), false));
-                    messageText.setText("");
-                    myAdapter.notifyDataSetChanged();
-                    closeKeyboard();
-                }
-            }
-        });
+
+        //Listen for an insert button click event:
+//        sendButton.setOnClickListener( click ->
+//        {
+//            //get the email and name that were typed
+//            String name = messageText.getText().toString();
+//
+//            //add to the database and get the new ID
+//            ContentValues newRowValues = new ContentValues();
+//
+//            //Now provide a value for every database column defined in MyOpener.java:
+//            //put string name in the NAME column:
+//            newRowValues.put(dbOpener.COL_NAME, name);
+//            //put string email in the EMAIL column:
+//            newRowValues.put(MyOpener.COL_EMAIL, email);
+//
+//            //Now insert in the database:
+//            long newId = db.insert(MyOpener.TABLE_NAME, null, newRowValues);
+//
+//            //now you have the newId, you can create the Contact object
+//            Contact newContact = new Contact(name, email, newId);
+//
+//            //add the new contact to the list:
+//            contactsList.add(newContact);
+//            //update the listView:
+//            myAdapter.notifyDataSetChanged();
+//
+//            //clear the EditText fields:
+//            nameEdit.setText("");
+//            emailEdit.setText("");
+//
+//            //Show the id of the inserted item:
+//            Toast.makeText(this, "Inserted item id:"+newId, Toast.LENGTH_LONG).show();
+//        });
+//    }
+
+
+//        messageText = (EditText) findViewById(R.id.messageText);
+//        sendButton = (Button) findViewById(R.id.sendButton);
+//        sendButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!TextUtils.isEmpty(messageText.getText().toString())) {
+//                    messageList.add(new Message(3, messageText.getText().toString(), true));
+//                    messageText.setText("");
+//                    myAdapter.notifyDataSetChanged();
+//                    closeKeyboard();
+//                }
+//            }
+//        });
+//
+//        receivedButton = (Button) findViewById(R.id.receivedButton);
+//        receivedButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!TextUtils.isEmpty(messageText.getText().toString())) {
+//                    messageList.add(new Message(4, messageText.getText().toString(), false));
+//                    messageText.setText("");
+//                    myAdapter.notifyDataSetChanged();
+//                    closeKeyboard();
+//                }
+//            }
+//        });
 
         // ListView
         ListView myList = findViewById(R.id.theListView);
         myList.setAdapter(myAdapter = new MessagesAdapter());
-        myList.setOnItemLongClickListener((p, b, pos, id) -> {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-
-            alertDialogBuilder.setTitle(getString(R.string.alert_title))
-                    .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
-                    .setPositiveButton(R.string.alert_yes, (click, arg) -> {
-                        messageList.remove(pos);
-                        myAdapter.notifyDataSetChanged();
-                    })
-                    .setNegativeButton(R.string.alert_no, (click, arg) -> {
-                    })
-                    .setView(getLayoutInflater().inflate(R.layout.row_layout_receive, null))
-                    .create().show();
-            return true;
-        });
+//        myList.setOnItemLongClickListener((p, b, pos, id) -> {
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//
+//
+//            alertDialogBuilder.setTitle(getString(R.string.alert_title))
+//                    .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
+//                    .setPositiveButton(R.string.alert_yes, (click, arg) -> {
+//                        messageList.remove(pos);
+//                        myAdapter.notifyDataSetChanged();
+//                    })
+//                    .setNegativeButton(R.string.alert_no, (click, arg) -> {
+//                    })
+//                    .setView(getLayoutInflater().inflate(R.layout.row_layout_receive, null))
+//                    .create().show();
+//            return true;
+//        });
 
         //Whenever you swipe down on the list, do something:
 //        SwipeRefreshLayout refresher = findViewById(R.id.refresher);
@@ -106,11 +148,15 @@ public class ChatRoomActivity extends AppCompatActivity {
         }
 
         public Object getItem(int position) {
-            return "This is row " + position;
+//            return "This is row " + position;
+            return messageList.get(position);
         }
+
 
         public long getItemId(int position) {
             return (long) position;
+
+            //return getItem(position).getId();
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {

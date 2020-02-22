@@ -53,3 +53,32 @@ Click on Device File Explorer on bottom right and navigate to /data/data/com.exa
 
 
 ### Lab/Branch 5 - Database
+
+**SQLite cheatsheet**
+
+```bash
+adb shell
+run-as com.example.androidlabs (packagename)
+cd /data/data/com.example.androidlabs/database
+sqlite3 MessagesDB
+```
+
+
+There are a few steps to see the tables in an SQLite database:
+
+List the tables in your database:
+
+```.tables```
+
+
+List how the table looks:
+
+```.schema tablename```
+
+Print the entire table:
+
+```SELECT * FROM tablename;```
+
+List all of the available SQLite prompt commands:
+
+```.help```
