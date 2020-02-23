@@ -7,11 +7,17 @@
     tools:context=".ChatRoomActivity"
     android:orientation="vertical">
 
+<!--    <ListView-->
+<!--        android:id="@+id/theListView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="10" />-->
+
     <ListView
-        android:id="@+id/theListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10" />
+        android:id="@+id/the_list"
+        android:layout_weight="10"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +32,7 @@
             android:text="@string/sendButtonText"/>
 
         <EditText
-            android:id="@+id/messageText"
+            android:id="@+id/chatEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

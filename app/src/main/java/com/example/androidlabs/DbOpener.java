@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbOpener extends SQLiteOpenHelper {
 
-    protected final static String DATABASE_NAME = "MessagesDB";
+    protected final static String DATABASE_NAME = "ChatDB";
     protected final static int VERSION_NUM = 1;
-    public final static String TABLE_NAME = "MESSAGES";
+    public final static String TABLE_NAME = "CHATS";
     public final static String COL_TITLE = "TITLE";
-    public final static String COL_ORIGIN = "ORIGIN";
+    public final static String COL_TYPE = "TYPE";
     public final static String COL_ID = "_id";
 
     public DbOpener(Context ctx)
@@ -26,7 +26,7 @@ public class DbOpener extends SQLiteOpenHelper {
     {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_TITLE + " text,"
-                + COL_ORIGIN  + " text);");  // add or remove columns
+                + COL_TYPE  + " text);");  // add or remove columns
     }
 
 

@@ -15,22 +15,22 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/messageId"
+        android:id="@+id/chatId"
         android:layout_weight="1"
         />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/messageTitle"
+        android:id="@+id/chatTitle"
         android:layout_weight="1"
         />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/messageOrigin"
+        android:id="@+id/chatType"
         android:layout_weight="1"
-       />
+        />
 
 </LinearLayout>
