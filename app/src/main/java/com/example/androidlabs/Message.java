@@ -6,24 +6,24 @@ public class Message {
     // click "alt+insert" in Windows, "control+return" on Macintosh
     protected String title;
     protected long id;
-    protected boolean isSender;
+    protected String origin;
 
     /**Constructor:*/
-    public Message(long id, String title, boolean isSender)
+    public Message(long id, String title, String origin)
     {
         id = id;
         title = title;
-        isSender = isSender;
+        origin = origin;
     }
 
-    public void update(String title, boolean isSender)
+    public void update(String title, String origin)
     {
         title = title;
-        isSender = isSender;
+        origin = origin;
     }
 
     /**Chaining constructor: */
-    public Message(String n, boolean e)
+    public Message(String n, String e)
     {
         this(0, n, e);
     }
@@ -33,8 +33,8 @@ public class Message {
         return title;
     }
 
-    public boolean getIsSender() {
-        return isSender;
+    public String getOrigin() {
+        return origin;
     }
 
     public long getId() {

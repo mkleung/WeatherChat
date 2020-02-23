@@ -10,7 +10,7 @@ public class DbOpener extends SQLiteOpenHelper {
     protected final static int VERSION_NUM = 1;
     public final static String TABLE_NAME = "MESSAGES";
     public final static String COL_TITLE = "TITLE";
-    public final static String COL_IS_SENDER = "IS_SENDER";
+    public final static String COL_ORIGIN = "ORIGIN";
     public final static String COL_ID = "_id";
 
     public DbOpener(Context ctx)
@@ -26,7 +26,7 @@ public class DbOpener extends SQLiteOpenHelper {
     {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_TITLE + " text,"
-                + COL_IS_SENDER  + " text);");  // add or remove columns
+                + COL_ORIGIN  + " text);");  // add or remove columns
     }
 
 

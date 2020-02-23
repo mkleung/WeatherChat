@@ -19,19 +19,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    private ArrayList<Message> messageList;
-    private MessagesAdapter myAdapter;
+    ArrayList<Message> messageList = new ArrayList<Message>();
 
     private EditText messageText;
     private Button sendButton;
     private Button receivedButton;
     private String messageContent;
 
+    MyOwnAdapter myAdapter;
     SQLiteDatabase db;
 
     @Override
@@ -40,12 +41,35 @@ public class ChatRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
 
         // Database
-        loadDataFromDatabase(); //get any previously saved Contact objects
+        loadDataFromDatabase();
 
 
-        messageList = new ArrayList<Message>();
-        Message msg1 = new Message(1, "Hello", false);
-        Message msg2 = new Message(2,"World", true);
+        ListView myList = findViewById(R.id.theListView);
+        myAdapter = new MyOwnAdapter();
+        myList.setAdapter(myAdapter);
+//
+//
+//        myList.setAdapter(myAdapter = new MessagesAdapter());
+//        myList.setOnItemLongClickListener((p, b, pos, id) -> {
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//
+//
+//            alertDialogBuilder.setTitle(getString(R.string.alert_title))
+//                    .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
+//                    .setPositiveButton(R.string.alert_yes, (click, arg) -> {
+//                        messageList.remove(pos);
+//                        myAdapter.notifyDataSetChanged();
+//                    })
+//                    .setNegativeButton(R.string.alert_no, (click, arg) -> {
+//                    })
+//                    .setView(getLayoutInflater().inflate(R.layout.row_layout_receive, null))
+//                    .create().show();
+//            return true;
+//        });
+
+
+        Message msg1 = new Message(1, "Hello", "sender");
+        Message msg2 = new Message(2, "World", "receiver");
         messageList.add(msg1);
         messageList.add(msg2);
 
@@ -55,39 +79,66 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
         //Listen for an insert button click event:
-//        sendButton.setOnClickListener( click ->
-//        {
-//            //get the email and name that were typed
-//            String name = messageText.getText().toString();
-//
-//            //add to the database and get the new ID
-//            ContentValues newRowValues = new ContentValues();
-//
-//            //Now provide a value for every database column defined in MyOpener.java:
-//            //put string name in the NAME column:
-//            newRowValues.put(dbOpener.COL_NAME, name);
-//            //put string email in the EMAIL column:
-//            newRowValues.put(MyOpener.COL_EMAIL, email);
-//
-//            //Now insert in the database:
-//            long newId = db.insert(MyOpener.TABLE_NAME, null, newRowValues);
-//
-//            //now you have the newId, you can create the Contact object
-//            Contact newContact = new Contact(name, email, newId);
-//
-//            //add the new contact to the list:
-//            contactsList.add(newContact);
-//            //update the listView:
-//            myAdapter.notifyDataSetChanged();
-//
-//            //clear the EditText fields:
-//            nameEdit.setText("");
-//            emailEdit.setText("");
-//
-//            //Show the id of the inserted item:
-//            Toast.makeText(this, "Inserted item id:"+newId, Toast.LENGTH_LONG).show();
-//        });
-//    }
+        sendButton.setOnClickListener(click ->
+        {
+
+            String title = messageText.getText().toString();
+
+
+            ContentValues newRowValues = new ContentValues();
+
+            newRowValues.put(DbOpener.COL_TITLE, title);
+            newRowValues.put(DbOpener.COL_ORIGIN, "sender");
+
+            long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
+
+            Message newMessage = new Message(newId, title, "sender");
+
+            //add the new contact to the list:
+            messageList.add(newMessage);
+            //update the listView:
+
+
+            //Show the id of the inserted item:
+            Toast.makeText(this, "Inserted item id:" + newId, Toast.LENGTH_LONG).show();
+        });
+    }
+
+    protected class MyOwnAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return messageList.size();
+        }
+
+        public Message getItem(int position){
+            return messageList.get(position);
+        }
+
+        public long getItemId(int position)
+        {
+            return getItem(position).getId();
+        }
+
+        public View getView(int position, View old, ViewGroup parent)
+        {
+            View newView = getLayoutInflater().inflate(R.layout.row_layout_send, parent, false );
+
+            Message thisRow = getItem(position);
+
+            //get the TextViews
+            TextView rowTitle = (TextView)newView.findViewById(R.id.messageTitle);
+            TextView rowOrigin = (TextView)newView.findViewById(R.id.messageOrigin);
+            TextView rowId = (TextView)newView.findViewById(R.id.messageId);
+
+            //update the text fields:
+            rowTitle.setText(  thisRow.getTitle());
+            rowOrigin.setText( thisRow.getOrigin());
+            rowId.setText("id:" + thisRow.getId());
+
+            //return the row:
+            return newView;
+        }
+    }
 
 
 //        messageText = (EditText) findViewById(R.id.messageText);
@@ -118,66 +169,51 @@ public class ChatRoomActivity extends AppCompatActivity {
 //        });
 
         // ListView
-        ListView myList = findViewById(R.id.theListView);
-        myList.setAdapter(myAdapter = new MessagesAdapter());
-//        myList.setOnItemLongClickListener((p, b, pos, id) -> {
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//
-//
-//            alertDialogBuilder.setTitle(getString(R.string.alert_title))
-//                    .setMessage(getString(R.string.alert_description_1) + ": " + pos + "\n" + getString(R.string.alert_description_2) + ": " + pos)
-//                    .setPositiveButton(R.string.alert_yes, (click, arg) -> {
-//                        messageList.remove(pos);
-//                        myAdapter.notifyDataSetChanged();
-//                    })
-//                    .setNegativeButton(R.string.alert_no, (click, arg) -> {
-//                    })
-//                    .setView(getLayoutInflater().inflate(R.layout.row_layout_receive, null))
-//                    .create().show();
-//            return true;
-//        });
+
+
+
 
         //Whenever you swipe down on the list, do something:
 //        SwipeRefreshLayout refresher = findViewById(R.id.refresher);
 //        refresher.setOnRefreshListener( () -> refresher.setRefreshing(false)  );
-    }
 
-    private class MessagesAdapter extends BaseAdapter {
-        public int getCount() {
-            return messageList.size();
-        }
-
-        public Object getItem(int position) {
-//            return "This is row " + position;
-            return messageList.get(position);
-        }
-
-
-        public long getItemId(int position) {
-            return (long) position;
-
-            //return getItem(position).getId();
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Message message = messageList.get(position);
-            int imageResource;
-            int row_layout;
-            if (message.isSender) {
-                row_layout = R.layout.row_layout_send;
-                imageResource = R.drawable.row_send;
-            } else {
-                row_layout = R.layout.row_layout_receive;
-                imageResource = R.drawable.row_receive;
-            }
-            View newView = getLayoutInflater().inflate(row_layout, parent, false);
-            TextView messageView = (TextView) newView.findViewById(R.id.messageView);
-            messageView.setText(message.title);
-            ImageView imageView = (ImageView) newView.findViewById(R.id.imageView);
-            imageView.setImageResource(imageResource);
-            return newView;
-        }
-    }
+//
+//    protected class MessagesAdapter extends BaseAdapter {
+//        public int getCount() {
+//            return messageList.size();
+//        }
+//
+//        public Object getItem(int position) {
+////            return "This is row " + position;
+//            return messageList.get(position);
+//        }
+//
+//
+//        public long getItemId(int position) {
+//            return (long) position;
+//
+//            //return getItem(position).getId();
+//        }
+//
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            Message message = messageList.get(position);
+//            int imageResource;
+//            int row_layout;
+//            if (message.origin.equals("sender")) {
+//                row_layout = R.layout.row_layout_send;
+//                imageResource = R.drawable.row_send;
+//            } else {
+//                row_layout = R.layout.row_layout_receive;
+//                imageResource = R.drawable.row_receive;
+//            }
+//            View newView = getLayoutInflater().inflate(row_layout, parent, false);
+//            TextView messageView = (TextView) newView.findViewById(R.id.messageView);
+//            messageView.setText(message.title);
+//            ImageView imageView = (ImageView) newView.findViewById(R.id.imageView);
+//            imageView.setImageResource(imageResource);
+//            return newView;
+//        }
+//    }
 
     // Close The Virtual keyboard
     private void closeKeyboard() {
@@ -199,25 +235,26 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
         // We want to get all of the columns. Look at MyOpener.java for the definitions:
-        String [] columns = {DbOpener.COL_ID, DbOpener.COL_TITLE, DbOpener.COL_IS_SENDER};
+        String [] columns = {DbOpener.COL_ID, DbOpener.COL_TITLE, DbOpener.COL_ORIGIN};
         //query all the results from the database:
         Cursor results = db.query(false, DbOpener.TABLE_NAME, columns, null, null, null, null, null, null);
 
         //Now the results object has rows of results that match the query.
         //find the column indices:
-        int emailColumnIndex = results.getColumnIndex(DbOpener.COL_TITLE);
-        int nameColIndex = results.getColumnIndex(DbOpener.COL_IS_SENDER);
+        int titleColumnIndex = results.getColumnIndex(DbOpener.COL_TITLE);
+        int originColIndex = results.getColumnIndex(DbOpener.COL_ORIGIN);
         int idColIndex = results.getColumnIndex(DbOpener.COL_ID);
 
         //iterate over the results, return true if there is a next item:
         while(results.moveToNext())
         {
-            String name = results.getString(nameColIndex);
-            String email = results.getString(emailColumnIndex);
+            String title = results.getString(titleColumnIndex);
+            String origin = results.getString(originColIndex);
             long id = results.getLong(idColIndex);
 
             //add the new Contact to the array list:
-            messageList.add(new Message(id, "Hello", false));
+            messageList.add(new Message(id, "Hello", "sender"));
         }
     }
+
 }
