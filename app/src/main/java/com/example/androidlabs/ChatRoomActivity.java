@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -38,7 +39,9 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         EditText chatEdit = (EditText)findViewById(R.id.chatEdit);
 
-        Button insertButton = (Button)findViewById(R.id.sendButton);
+        Button sendButton = (Button)findViewById(R.id.sendButton);
+        Button receiveButton = (Button)findViewById(R.id.receiveButton);
+
         ListView theList = (ListView)findViewById(R.id.the_list);
 
         loadDataFromDatabase();
@@ -46,18 +49,15 @@ public class ChatRoomActivity extends AppCompatActivity {
         myAdapter = new MyOwnAdapter();
         theList.setAdapter(myAdapter);
 
+        // DELETE CHAT
         theList.setOnItemLongClickListener(( parent,  view,  position,  id) -> {
-
             Chat selectedChat = chatList.get(position);
-
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle( getString(R.string.alert_title))
                     .setMessage(getString(R.string.alert_description_1)+": " + position+ "\n" + getString(R.string.alert_description_2)+": "+position)
                     .setPositiveButton(R.string.alert_yes, (click, arg) -> {
-
                         deleteContact(selectedChat); //remove the contact from database
                         chatList.remove(position); //remove the contact from contact list
-
                         myAdapter.notifyDataSetChanged();
                     })
                     .setNegativeButton(R.string.alert_no, (click, arg) -> { })
@@ -66,18 +66,37 @@ public class ChatRoomActivity extends AppCompatActivity {
             return true;
         });
 
-        insertButton.setOnClickListener( click ->
+        // SEND BUTTON
+        sendButton.setOnClickListener( click ->
+        {
+            String name = chatEdit.getText().toString();
+
+            ContentValues newRowValues = new ContentValues();
+            newRowValues.put(DbOpener.COL_TITLE, name);
+            newRowValues.put(DbOpener.COL_TYPE, "send");
+
+            long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
+            Chat newContact = new Chat(name, "send", newId);
+            chatList.add(newContact);
+            myAdapter.notifyDataSetChanged();
+            chatEdit.setText("");
+        });
+
+        // RECEIVE BUTTON
+        receiveButton.setOnClickListener( click ->
         {
             String name = chatEdit.getText().toString();
             ContentValues newRowValues = new ContentValues();
             newRowValues.put(DbOpener.COL_TITLE, name);
+            newRowValues.put(DbOpener.COL_TYPE, "receive");
+
             long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
-            Chat newContact = new Chat(name, "sender", newId);
+            Chat newContact = new Chat(name, "receive", newId);
             chatList.add(newContact);
             myAdapter.notifyDataSetChanged();
             chatEdit.setText("");
-            Toast.makeText(this, "Inserted item id:"+newId, Toast.LENGTH_LONG).show();
         });
+
     }
 
 
@@ -98,6 +117,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             String title = results.getString(titleColumnIndex);
             String type = results.getString(typeColumnIndex);
             long id = results.getLong(idColIndex);
+
             chatList.add(new Chat(title, type, id));
         }
     }
@@ -136,13 +156,13 @@ public class ChatRoomActivity extends AppCompatActivity {
 //                .create().show();
 //    }
 
-    protected void updateContact(Chat c)
-    {
-        ContentValues updatedValues = new ContentValues();
-        updatedValues.put(DbOpener.COL_TITLE, c.getTitle());
-        updatedValues.put(DbOpener.COL_TYPE, c.getType());
-        db.update(DbOpener.TABLE_NAME, updatedValues, DbOpener.COL_ID + "= ?", new String[] {Long.toString(c.getId())});
-    }
+//    protected void updateContact(Chat c)
+//    {
+//        ContentValues updatedValues = new ContentValues();
+//        updatedValues.put(DbOpener.COL_TITLE, c.getTitle());
+//        updatedValues.put(DbOpener.COL_TYPE, c.getType());
+//        db.update(DbOpener.TABLE_NAME, updatedValues, DbOpener.COL_ID + "= ?", new String[] {Long.toString(c.getId())});
+//    }
 
     protected void deleteContact(Chat c)
     {
@@ -169,9 +189,10 @@ public class ChatRoomActivity extends AppCompatActivity {
             TextView rowType = (TextView)newView.findViewById(R.id.chatType);
             TextView rowId = (TextView)newView.findViewById(R.id.chatId);
 
-            rowTitle.setText(  thisRow.getTitle());
-            rowType.setText( thisRow.getType());
+            rowTitle.setText( "Title: " +  thisRow.getTitle());
+            rowType.setText( "Type: " + thisRow.getType());
             rowId.setText("id:" + thisRow.getId());
+
             return newView;
         }
         public long getItemId(int position)
