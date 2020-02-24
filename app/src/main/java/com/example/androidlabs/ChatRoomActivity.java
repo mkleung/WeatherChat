@@ -71,30 +71,41 @@ public class ChatRoomActivity extends AppCompatActivity {
         {
             String name = chatEdit.getText().toString();
 
+            if (TextUtils.isEmpty(name)) {
+                return;
+            }
+
             ContentValues newRowValues = new ContentValues();
-            newRowValues.put(DbOpener.COL_TITLE, name);
-            newRowValues.put(DbOpener.COL_TYPE, "send");
+            newRowValues.put(DbOpener.COL_MESSAGE, name);
+            newRowValues.put(DbOpener.COL_IS_SENT, "send");
 
             long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
-            Chat newContact = new Chat(name, "send", newId);
+            Chat newContact = new Chat(name, true, newId);
             chatList.add(newContact);
             myAdapter.notifyDataSetChanged();
             chatEdit.setText("");
+            closeKeyboard();
         });
 
         // RECEIVE BUTTON
         receiveButton.setOnClickListener( click ->
         {
             String name = chatEdit.getText().toString();
+
+            if (TextUtils.isEmpty(name)) {
+                return;
+            }
+
             ContentValues newRowValues = new ContentValues();
-            newRowValues.put(DbOpener.COL_TITLE, name);
-            newRowValues.put(DbOpener.COL_TYPE, "receive");
+            newRowValues.put(DbOpener.COL_MESSAGE, name);
+            newRowValues.put(DbOpener.COL_IS_SENT, true);
 
             long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
-            Chat newContact = new Chat(name, "receive", newId);
+            Chat newContact = new Chat(name, false, newId);
             chatList.add(newContact);
             myAdapter.notifyDataSetChanged();
             chatEdit.setText("");
+            closeKeyboard();
         });
 
     }
@@ -105,23 +116,21 @@ public class ChatRoomActivity extends AppCompatActivity {
         DbOpener dbOpener = new DbOpener(this);
         db = dbOpener.getWritableDatabase();
 
-        String [] columns = {DbOpener.COL_ID, DbOpener.COL_TITLE, DbOpener.COL_TYPE};
+        String [] columns = {DbOpener.COL_ID, DbOpener.COL_MESSAGE, DbOpener.COL_IS_SENT};
         Cursor results = db.query(false, DbOpener.TABLE_NAME, columns, null, null, null, null, null, null);
 
-        int titleColumnIndex = results.getColumnIndex(DbOpener.COL_TITLE);
-        int typeColumnIndex = results.getColumnIndex(DbOpener.COL_TYPE);
+        int titleColumnIndex = results.getColumnIndex(DbOpener.COL_MESSAGE);
+        int isSentColumnIndex = results.getColumnIndex(DbOpener.COL_IS_SENT);
         int idColIndex = results.getColumnIndex(DbOpener.COL_ID);
 
         while(results.moveToNext())
         {
             String title = results.getString(titleColumnIndex);
-            String type = results.getString(typeColumnIndex);
+            boolean isSent = results.getInt(isSentColumnIndex) > 0;
             long id = results.getLong(idColIndex);
-
-            chatList.add(new Chat(title, type, id));
+            chatList.add(new Chat(title, isSent, id));
         }
     }
-
 
 //    protected void deleteChat(int position)
 //    {
@@ -182,22 +191,38 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         public View getView(int position, View old, ViewGroup parent)
         {
-            View newView = getLayoutInflater().inflate(R.layout.row_layout_send, parent, false );
             Chat thisRow = getItem(position);
 
+            boolean isSent = thisRow.getIsSent();
+
+            int layout_type;
+            if (isSent) {
+                layout_type = R.layout.row_layout_send;
+            } else {
+                layout_type = R.layout.row_layout_receive;
+            }
+
+            View newView = getLayoutInflater().inflate(layout_type, parent, false );
+
             TextView rowTitle = (TextView)newView.findViewById(R.id.chatTitle);
-            TextView rowType = (TextView)newView.findViewById(R.id.chatType);
-            TextView rowId = (TextView)newView.findViewById(R.id.chatId);
-
-            rowTitle.setText( "Title: " +  thisRow.getTitle());
-            rowType.setText( "Type: " + thisRow.getType());
-            rowId.setText("id:" + thisRow.getId());
-
+            rowTitle.setText(thisRow.getMessage());
             return newView;
         }
         public long getItemId(int position)
         {
             return getItem(position).getId();
+        }
+    }
+
+
+    // Close The Virtual keyboard
+    private void closeKeyboard() {
+        // current edittext
+        View view = this.getCurrentFocus();
+        // if there is a view that has focus
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }

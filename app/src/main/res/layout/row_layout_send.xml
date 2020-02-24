@@ -6,31 +6,17 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="5"-->
-<!--         />-->
-    <TextView
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:id="@+id/chatId"
-        android:layout_weight="1"
-        />
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        app:srcCompat="@drawable/row_send" />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/chatTitle"
-        android:layout_weight="1"
-        />
-
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/chatType"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
 </LinearLayout>

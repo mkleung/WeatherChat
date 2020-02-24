@@ -4,33 +4,34 @@ public class Chat {
 
     //Android Studio hint: to create getter and setter, put mouse on variable and
     // click "alt+insert" in Windows, "control+return" on Macintosh
-    protected String title, type;
+    protected String message;
+    protected boolean isSent;
     protected long id;
 
     /**Constructor:*/
-    public Chat(String n, String e, long i)
+    public Chat(String n, boolean e, long i)
     {
-        title =n;
-        type = e;
+        message =n;
+        isSent = e;
         id = i;
     }
 
-    public void update(String n, String e)
+    public void update(String n, boolean e)
     {
-        title = n;
-        type = e;
+        message = n;
+        isSent = e;
     }
 
     /**Chaining constructor: */
-    public Chat(String n, String e) { this(n, e, 0);}
+    public Chat(String n, boolean e) { this(n, e, 0);}
 
 
-    public String getTitle() {
-        return title;
+    public String getMessage() {
+        return message;
     }
 
-    public String getType() {
-        return type;
+    public boolean getIsSent() {
+        return isSent;
     }
 
     public long getId() {
