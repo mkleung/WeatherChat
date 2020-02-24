@@ -18,9 +18,6 @@ public class DbOpener extends SQLiteOpenHelper {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
     }
 
-
-    //This function gets called if no database file exists.
-    //Look on your device in the /data/data/package-name/database directory.
     @Override
     public void onCreate(SQLiteDatabase db)
     {
@@ -28,7 +25,6 @@ public class DbOpener extends SQLiteOpenHelper {
                 + COL_MESSAGE + " text,"
                 + COL_IS_SENT  + " text);");  // add or remove columns
     }
-
 
     //this function gets called if the database version on your device is lower than VERSION_NUM
     @Override

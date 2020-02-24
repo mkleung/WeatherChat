@@ -2,35 +2,33 @@ package com.example.androidlabs;
 
 public class Chat {
 
-    //Android Studio hint: to create getter and setter, put mouse on variable and
-    // click "alt+insert" in Windows, "control+return" on Macintosh
     protected String message;
-    protected boolean isSent;
+    protected int isSent;
     protected long id;
 
     /**Constructor:*/
-    public Chat(String n, boolean e, long i)
+    public Chat(String n, int e, long i)
     {
         message =n;
         isSent = e;
         id = i;
     }
 
-    public void update(String n, boolean e)
+    public void update(String n, int e)
     {
         message = n;
         isSent = e;
     }
 
     /**Chaining constructor: */
-    public Chat(String n, boolean e) { this(n, e, 0);}
+    public Chat(String n, int e) { this(n, e, 0);}
 
 
     public String getMessage() {
         return message;
     }
 
-    public boolean getIsSent() {
+    public int getIsSent() {
         return isSent;
     }
 

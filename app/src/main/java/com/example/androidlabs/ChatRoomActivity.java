@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     int positionClicked = 0;
     MyOwnAdapter myAdapter;
     SQLiteDatabase db;
+
+    private static final String TAG = "ChatRoomActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,10 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
 
         // SEND BUTTON
-        sendButton.setOnClickListener( click ->
-        {
+        sendButton.setOnClickListener( click -> {
             String name = chatEdit.getText().toString();
+
+            boolean test = true;
 
             if (TextUtils.isEmpty(name)) {
                 return;
@@ -77,10 +81,10 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             ContentValues newRowValues = new ContentValues();
             newRowValues.put(DbOpener.COL_MESSAGE, name);
-            newRowValues.put(DbOpener.COL_IS_SENT, "send");
+            newRowValues.put(DbOpener.COL_IS_SENT, 1);
 
             long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
-            Chat newContact = new Chat(name, true, newId);
+            Chat newContact = new Chat(name, 1, newId);
             chatList.add(newContact);
             myAdapter.notifyDataSetChanged();
             chatEdit.setText("");
@@ -88,8 +92,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
 
         // RECEIVE BUTTON
-        receiveButton.setOnClickListener( click ->
-        {
+        receiveButton.setOnClickListener( click -> {
             String name = chatEdit.getText().toString();
 
             if (TextUtils.isEmpty(name)) {
@@ -98,21 +101,18 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             ContentValues newRowValues = new ContentValues();
             newRowValues.put(DbOpener.COL_MESSAGE, name);
-            newRowValues.put(DbOpener.COL_IS_SENT, true);
+            newRowValues.put(DbOpener.COL_IS_SENT, 0);
 
             long newId = db.insert(DbOpener.TABLE_NAME, null, newRowValues);
-            Chat newContact = new Chat(name, false, newId);
+            Chat newContact = new Chat(name, 0, newId);
             chatList.add(newContact);
             myAdapter.notifyDataSetChanged();
             chatEdit.setText("");
             closeKeyboard();
         });
-
     }
 
-
-    private void loadDataFromDatabase()
-    {
+    private void loadDataFromDatabase() {
         DbOpener dbOpener = new DbOpener(this);
         db = dbOpener.getWritableDatabase();
 
@@ -123,63 +123,21 @@ public class ChatRoomActivity extends AppCompatActivity {
         int isSentColumnIndex = results.getColumnIndex(DbOpener.COL_IS_SENT);
         int idColIndex = results.getColumnIndex(DbOpener.COL_ID);
 
-        while(results.moveToNext())
-        {
+        while(results.moveToNext()) {
             String title = results.getString(titleColumnIndex);
-            boolean isSent = results.getInt(isSentColumnIndex) > 0;
+            int isSent = results.getInt(isSentColumnIndex);
             long id = results.getLong(idColIndex);
             chatList.add(new Chat(title, isSent, id));
         }
+
+        printCursor(results, db.getVersion());
     }
 
-//    protected void deleteChat(int position)
-//    {
-//        Chat selectedMessage = chatList.get(position);
-//
-//        View contact_view = getLayoutInflater().inflate(R.layout.row_layout_send, null);
-//        //get the TextViews
-//        EditText rowName = contact_view.findViewById(R.id.row_name);
-//        EditText rowEmail = contact_view.findViewById(R.id.row_email);
-//        TextView rowId = contact_view.findViewById(R.id.row_id);
-//
-//        //set the fields for the alert dialog
-//        rowName.setText(selectedContact.getName());
-//        rowEmail.setText(selectedContact.getEmail());
-//        rowId.setText("id:" + selectedContact.getId());
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("You clicked on item #" + position)
-//                .setMessage("You can update the fields and then click update to save in the database")
-//                .setView(contact_view) //add the 3 edit texts showing the contact information
-//                .setPositiveButton("Update", (click, b) -> {
-//                    selectedContact.update(rowName.getText().toString(), rowEmail.getText().toString());
-//                    updateContact(selectedContact);
-//                    myAdapter.notifyDataSetChanged(); //the email and name have changed so rebuild the list
-//                })
-//                .setNegativeButton("Delete", (click, b) -> {
-//                    deleteContact(selectedContact); //remove the contact from database
-//                    chatList.remove(position); //remove the contact from contact list
-//                    myAdapter.notifyDataSetChanged(); //there is one less item so update the list
-//                })
-//                .setNeutralButton("dismiss", (click, b) -> { })
-//                .create().show();
-//    }
-
-//    protected void updateContact(Chat c)
-//    {
-//        ContentValues updatedValues = new ContentValues();
-//        updatedValues.put(DbOpener.COL_TITLE, c.getTitle());
-//        updatedValues.put(DbOpener.COL_TYPE, c.getType());
-//        db.update(DbOpener.TABLE_NAME, updatedValues, DbOpener.COL_ID + "= ?", new String[] {Long.toString(c.getId())});
-//    }
-
-    protected void deleteContact(Chat c)
-    {
+    protected void deleteContact(Chat c) {
         db.delete(DbOpener.TABLE_NAME, DbOpener.COL_ID + "= ?", new String[] {Long.toString(c.getId())});
     }
 
-    protected class MyOwnAdapter extends BaseAdapter
-    {
+    protected class MyOwnAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return chatList.size();
@@ -189,14 +147,13 @@ public class ChatRoomActivity extends AppCompatActivity {
             return chatList.get(position);
         }
 
-        public View getView(int position, View old, ViewGroup parent)
-        {
+        public View getView(int position, View old, ViewGroup parent) {
             Chat thisRow = getItem(position);
 
-            boolean isSent = thisRow.getIsSent();
+            int isSent = thisRow.getIsSent();
 
             int layout_type;
-            if (isSent) {
+            if (isSent > 0) {
                 layout_type = R.layout.row_layout_send;
             } else {
                 layout_type = R.layout.row_layout_receive;
@@ -223,6 +180,26 @@ public class ChatRoomActivity extends AppCompatActivity {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    private void printCursor(Cursor c, int version) {
+        Log.v(TAG, "The database number = " + version);
+        Log.v(TAG, "The number of columns in the cursor = " + c.getColumnCount());
+
+        String[] columnNames = c.getColumnNames();
+        Log.v(TAG, "The names of columns in the cursor = " + Arrays.toString(columnNames));
+
+        Cursor  cursor = db.rawQuery("select * from " +  DbOpener.TABLE_NAME,null);
+        int titleColumnIndex = cursor.getColumnIndex(DbOpener.COL_MESSAGE);
+        int isSentColumnIndex = cursor.getColumnIndex(DbOpener.COL_IS_SENT);
+        int idColIndex = cursor.getColumnIndex(DbOpener.COL_ID);
+
+        while(cursor.moveToNext()) {
+            String title = cursor.getString(titleColumnIndex);
+            int isSent = cursor.getInt(isSentColumnIndex);
+            long id = cursor.getLong(idColIndex);
+            Log.v(TAG, "_id:" + id + " - title:" + title + " - isSent:" + isSent);
         }
     }
 }
