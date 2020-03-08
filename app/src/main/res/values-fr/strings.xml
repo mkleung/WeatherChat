@@ -44,4 +44,7 @@
     <string name="alert_description_1">La ligne sélectionnée est</string>
     <string name="alert_description_2">et la ID de la base de données </string>
 
+    <!-- Lab 6-->
+    <string name="profile_weatherButton">Prévisions Météorologiques</string>
+
 </resources>
