@@ -16,6 +16,12 @@
         android:layout_gravity="center"/>
 
     <TextView
+        android:id="@+id/currentTempText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/minTempText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
