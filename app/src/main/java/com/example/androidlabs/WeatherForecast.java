@@ -2,12 +2,17 @@ package com.example.androidlabs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,6 +21,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,14 +40,21 @@ public class WeatherForecast extends AppCompatActivity {
 
     ProgressBar progressBar;
 
+    TextView currentTempLabel;
+    TextView minTempLabel;
+    TextView maxTempLabel;
+    TextView uvRatingLabel;
+
     TextView currentTempText;
     TextView minTempText;
     TextView maxTempText;
     TextView uvRatingText;
 
+    ImageView weatherView;
+
     private static final String TAG = "WeatherForecast";
     private static final String urlTemp = "http://api.openweathermap.org/data/2.5/weather?q=ottawa,ca&APPID=7e943c97096a9784391a981c4d878b22&mode=xml&units=metric";
-private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?appid=7e943c97096a9784391a981c4d878b22&lat=45.348945&lon=-75.759389";
+    private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?appid=7e943c97096a9784391a981c4d878b22&lat=45.348945&lon=-75.759389";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +64,20 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        currentTempLabel = (TextView) findViewById(R.id.currentTempLabel);
+        minTempLabel = (TextView) findViewById(R.id.minTempLabel);
+        maxTempLabel = (TextView) findViewById(R.id.maxTempLabel);
+        uvRatingLabel = (TextView) findViewById(R.id.uvLabel);
+
         currentTempText = (TextView) findViewById(R.id.currentTempText);
         minTempText = (TextView) findViewById(R.id.minTempText);
         maxTempText = (TextView) findViewById(R.id.maxTempText);
         uvRatingText = (TextView) findViewById(R.id.uvRatingText);
 
+        weatherView = (ImageView) findViewById(R.id.weatherView);
+
         ForecastQuery req = new ForecastQuery();
         req.execute(urlTemp);
-
-//        ForecastQuery req2 = new ForecastQuery();
-//        req2.execute(urlUV);
 
     }
 
@@ -67,17 +87,26 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
         public String minTemp;
         public String maxTemp;
         public String uv;
+        public String weatherIconUrl;
         public Bitmap bm;
+
+        Bitmap image = null;
 
         private static final String TAG = "ForecastQuery";
 
         protected void onPreExecute() {
+            currentTempLabel.setVisibility(View.GONE);
+            minTempLabel.setVisibility(View.GONE);
+            maxTempLabel.setVisibility(View.GONE);
+            uvRatingLabel.setVisibility(View.GONE);
+
             currentTempText.setVisibility(View.GONE);
             minTempText.setVisibility(View.GONE);
             maxTempText.setVisibility(View.GONE);
             uvRatingText.setVisibility(View.GONE);
         }
 
+        @SuppressLint("WrongThread")
         protected String doInBackground(String ... args) {
 
             try {
@@ -99,19 +128,57 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
                     if(eventType == XmlPullParser.START_TAG) {
                         if(xpp.getName().equals("temperature")) {
 
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                             currentTemp = xpp.getAttributeValue(null,    "value");
                             publishProgress(25);
 
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                             minTemp = xpp.getAttributeValue(null,    "min");
                             publishProgress(50);
 
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                             maxTemp = xpp.getAttributeValue(null, "max");
                             publishProgress(75);
 
+                        }
+                        else if (xpp.getName().equals("weather")) {
+//                            weatherIconUrl = "http://openweathermap.org/img/w/" + xpp.getAttributeValue(null, "icon") + ".png";
 
+                            String icon = xpp.getAttributeValue(null, "icon");
+                            Log.i(TAG, "Looking for " + icon + ".png");
+
+                            if (fileExistance(icon+ ".png")) {
+
+                                Log.i(TAG, "Icon found");
+                                FileInputStream fis = null;
+                                try {    fis = openFileInput(icon + ".png");   }
+                                catch (FileNotFoundException e) {    e.printStackTrace();  }
+                                image = BitmapFactory.decodeStream(fis);
+
+                            }
+                            else {
+
+                                Log.i(TAG, "Icon not found. Need to download");
+
+                                weatherIconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+                                URL iconUrl = new URL(weatherIconUrl);
+                                HttpURLConnection iconConnection = (HttpURLConnection) iconUrl.openConnection();
+                                iconConnection.connect();
+                                int responseCode = iconConnection.getResponseCode();
+                                if (responseCode == 200) {
+                                    image = BitmapFactory.decodeStream(iconConnection.getInputStream());
+                                }
+
+                                // Save icon locally
+                                FileOutputStream outputStream = openFileOutput( icon + ".png", Context.MODE_PRIVATE);
+                                image.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
+                                outputStream.flush();
+                                outputStream.close();
+                            }
+
+                            //get the double associated with "value"
+                            Thread.sleep(100);
+                            publishProgress(100);
 
                         }
                         else if(xpp.getName().equals("lastupdate"))
@@ -138,16 +205,12 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
                 }
                 String result = sb.toString(); //result is the whole string
 
-
                 // convert string to JSON:
                 JSONObject uvReport = new JSONObject(result);
 
-                //get the double associated with "value"
-                Thread.sleep(200);
-                publishProgress(100);
+
                 double uvRating = uvReport.getDouble("value");
                 uv = Double.toString(uvRating);
-
 
             }
             catch (Exception e) {
@@ -165,6 +228,11 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
         //Type3
         public void onPostExecute(String fromDoInBackground) {
 
+            currentTempLabel.setVisibility(View.VISIBLE);
+            minTempLabel.setVisibility(View.VISIBLE);
+            maxTempLabel.setVisibility(View.VISIBLE);
+            uvRatingLabel.setVisibility(View.VISIBLE);
+
             currentTempText.setVisibility(View.VISIBLE);
             minTempText.setVisibility(View.VISIBLE);
             maxTempText.setVisibility(View.VISIBLE);
@@ -176,8 +244,15 @@ private static final String urlUV = "http://api.openweathermap.org/data/2.5/uvi?
             uvRatingText.setText(uv);
 
             progressBar.setVisibility(View.GONE);
+
+            weatherView.setImageBitmap(image);
+        }
+
+
+        public boolean fileExistance(String fname){
+            File file = getBaseContext().getFileStreamPath(fname);
+            return file.exists();
         }
     }
-
 
 }

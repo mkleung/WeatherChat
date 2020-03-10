@@ -9,35 +9,91 @@
     >
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/weatherView"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:srcCompat="@drawable/flag"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/currentTempText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/currentTempLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Temperature:"
+            android:layout_weight="1"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/currentTempText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/minTempText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
-    <TextView
-        android:id="@+id/maxTempText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/minTempLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minimum Temperature:"
+            android:layout_weight="1"
+            android:gravity="right"/>
+        <TextView
+            android:id="@+id/minTempText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/uvRatingText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/maxTempLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Maximum Temperature:"
+            android:layout_weight="1"
+            android:gravity="right"/>
+        <TextView
+            android:id="@+id/maxTempText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/uvLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UV Level:"
+            android:layout_weight="1"
+            android:gravity="right"/>
+        <TextView
+            android:id="@+id/uvRatingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:gravity="center" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
