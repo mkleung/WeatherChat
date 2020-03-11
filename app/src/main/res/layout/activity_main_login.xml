@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:hint="@string/emailText"/>
+        android:hint="@string/emailText"
+        android:nextFocusDown="@id/passwordText" />
 
     <TextView
         android:id="@+id/passwordLabel"
@@ -29,13 +30,16 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="@string/passwordText"/>
+        android:hint="@string/passwordText"
+        android:nextFocusDown="@id/loginButton"
+        android:nextFocusUp="@id/emailText" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loginButton" />
+        android:text="@string/loginButton"
+        android:nextFocusUp="@id/passwordText" />
 
 
 </LinearLayout>

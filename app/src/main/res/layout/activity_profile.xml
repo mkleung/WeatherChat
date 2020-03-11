@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/nameText" />
+        android:hint="@string/nameText"
+        android:nextFocusDown="@id/emailText2" />
 
     <TextView
         android:id="@+id/emailLabel2"
@@ -40,7 +41,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:hint="@string/emailText2" />
+        android:hint="@string/emailText2"
+        android:nextFocusDown="@id/imageButton2"
+        android:nextFocusUp="@id/nameText" />
 
     <TextView
         android:id="@+id/pictureLabel"
@@ -52,7 +55,9 @@
         android:id="@+id/imageButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/picture_frame" />
+        app:srcCompat="@android:drawable/picture_frame"
+        android:nextFocusDown="@id/chatButton"
+        android:nextFocusUp="@id/emailText2" />
 
     <TextView
         android:id="@+id/hintLabel"
@@ -64,13 +69,16 @@
         android:id="@+id/chatButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/chatButton" />
+        android:text="@string/chatButton"
+        android:nextFocusDown="@id/weatherForecastButton"
+        android:nextFocusUp="@id/imageButton2" />
 
     <Button
         android:id="@+id/weatherForecastButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profile_weatherButton" />
+        android:text="@string/profile_weatherButton"
+        android:nextFocusUp="@id/chatButton" />
 
 
 </LinearLayout>

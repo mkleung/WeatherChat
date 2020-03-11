@@ -128,15 +128,12 @@ public class WeatherForecast extends AppCompatActivity {
                     if(eventType == XmlPullParser.START_TAG) {
                         if(xpp.getName().equals("temperature")) {
 
-                            Thread.sleep(100);
                             currentTemp = xpp.getAttributeValue(null,    "value");
                             publishProgress(25);
 
-                            Thread.sleep(100);
                             minTemp = xpp.getAttributeValue(null,    "min");
                             publishProgress(50);
 
-                            Thread.sleep(100);
                             maxTemp = xpp.getAttributeValue(null, "max");
                             publishProgress(75);
 
@@ -177,7 +174,6 @@ public class WeatherForecast extends AppCompatActivity {
                             }
 
                             //get the double associated with "value"
-                            Thread.sleep(100);
                             publishProgress(100);
 
                         }
@@ -238,9 +234,9 @@ public class WeatherForecast extends AppCompatActivity {
             maxTempText.setVisibility(View.VISIBLE);
             uvRatingText.setVisibility(View.VISIBLE);
 
-            minTempText.setText(minTemp);
-            maxTempText.setText(maxTemp);
-            currentTempText.setText(currentTemp);
+            minTempText.setText(minTemp + "°C");
+            maxTempText.setText(maxTemp + "°C");
+            currentTempText.setText(currentTemp + "°C");
             uvRatingText.setText(uv);
 
             progressBar.setVisibility(View.GONE);
@@ -253,6 +249,7 @@ public class WeatherForecast extends AppCompatActivity {
             File file = getBaseContext().getFileStreamPath(fname);
             return file.exists();
         }
+
     }
 
 }

@@ -47,4 +47,9 @@
     <!-- Lab 6-->
     <string name="profile_weatherButton">Prévisions Météorologiques</string>
 
+    <string name="currentTemperature">Température actuelle:</string>
+    <string name="minTemperature">Température minimale:</string>
+    <string name="maxTemperature">Température maximale:</string>
+    <string name="weather_uv">Niveau uv :</string>
+
 </resources>
