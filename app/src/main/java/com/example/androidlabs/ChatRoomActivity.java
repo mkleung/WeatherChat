@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +35,9 @@ public class ChatRoomActivity extends AppCompatActivity {
     SQLiteDatabase db;
 
     private static final String TAG = "ChatRoomActivity";
+
+    FrameLayout fl;
+    Boolean platform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,24 @@ public class ChatRoomActivity extends AppCompatActivity {
             chatEdit.setText("");
             closeKeyboard();
         });
+
+        // LAB 7 - FrameLayout
+        fl = (FrameLayout) findViewById(R.id.framelayout);
+
+            if (fl == null) {
+                // Phone
+                platform = true;
+                Log.i(TAG, "PHONE");
+
+            }
+            else {
+                // tablet
+                platform = false;
+
+                Log.i(TAG, "TABLET");
+
+            }
+
     }
 
     private void loadDataFromDatabase() {
