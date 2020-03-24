@@ -38,7 +38,10 @@ public class ChatRoomActivity extends AppCompatActivity {
     private static final String TAG = "ChatRoomActivity";
 
     Boolean isTablet;
-    Boolean platform;
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_POSITION = "POSITION";
+    public static final String ITEM_ID = "ID";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,28 +122,26 @@ public class ChatRoomActivity extends AppCompatActivity {
         // LAB 7 - FrameLayout
 
         isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
-
         theList.setOnItemClickListener((list, item, position, id) -> {
+            Bundle dataToPass = new Bundle();
+            dataToPass.putString("message", chatList.get(position).getMessage() );
+            dataToPass.putString("isSend", Long.toString(chatList.get(position).getIsSent()) );
+            dataToPass.putString("id", Long.toString(id) );
 
-
-
-            //Add fragment loading here from slide 14.
             if (isTablet) {
-                platform = false;
-                Log.i(TAG, "TABLET");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, new DetailsFragment()).commit();
+                DetailsFragment dFragment = new DetailsFragment(); //add a DetailFragment
+                dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                        .commit(); //actually load the fragment.
             }
             else {
-                Log.i(TAG, "PHONE");
-                platform = true;
-
-                Intent fragmentIntent = new Intent(getApplicationContext(), EmptyActivity.class);
-                startActivity(fragmentIntent);
+                Intent nextActivity = new Intent(ChatRoomActivity.this, EmptyActivity.class);
+                nextActivity.putExtras(dataToPass); //send data to next activity
+                startActivity(nextActivity); //make the transition
             }
-
-
         });
-
     }
 
     private void loadDataFromDatabase() {

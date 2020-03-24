@@ -11,14 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <TextView
             android:id="@+id/fragmentTexMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Message Here"
-            android:layout_alignParentTop="true"
-            />
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/fragmentTextID"
@@ -36,8 +34,8 @@
                 android:id="@+id/fragmentCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CheckBox"
-                />
+                android:text=""
+                android:checked="false"/>
 
             <TextView
                 android:id="@+id/fragmentText3"

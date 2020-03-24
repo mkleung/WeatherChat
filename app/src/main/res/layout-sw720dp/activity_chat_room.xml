@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/the_list"
         android:id="@+id/fragmentLocation"
-        android:background="@color/colorAccent">
+    >
 
     </FrameLayout>
 
