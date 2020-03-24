@@ -15,7 +15,7 @@
 
     <ListView
         android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/the_list"
         />
 
@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/the_list">
+
 
         <Button
             android:id="@+id/sendButton"

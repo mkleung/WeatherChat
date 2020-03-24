@@ -17,27 +17,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Message Here"
-            android:layout_alignParentTop="true"
-            />
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/fragmentTextID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ID = "
-            android:layout_below = "@+id/fragmentTexMessage" />
+            android:layout_below="@+id/fragmentTexMessage" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below = "@+id/fragmentTextID">
+            android:layout_below="@+id/fragmentTextID">
+
             <CheckBox
                 android:id="@+id/fragmentCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CheckBox"
-                />
+                android:text="CheckBox" />
 
             <TextView
                 android:id="@+id/fragmentText3"
@@ -55,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hide"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
 

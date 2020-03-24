@@ -37,6 +37,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatRoomActivity";
 
+    Boolean isTablet;
     Boolean platform;
 
     @Override
@@ -117,27 +118,26 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         // LAB 7 - FrameLayout
 
-        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+        isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         theList.setOnItemClickListener((list, item, position, id) -> {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, new DetailsFragment()).commit();
+
 
             //Add fragment loading here from slide 14.
-//            if (isTablet != null) {
-//                // Phone
-//                platform = true;
-//                Log.i(TAG, "PHONE");
-//
-//
-//            }
-//            else {
-//                // tablet
-//                platform = false;
-//
-//                Log.i(TAG, "TABLET");
-//
-//            }
+            if (isTablet) {
+                platform = false;
+                Log.i(TAG, "TABLET");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, new DetailsFragment()).commit();
+            }
+            else {
+                Log.i(TAG, "PHONE");
+                platform = true;
+
+                Intent fragmentIntent = new Intent(getApplicationContext(), EmptyActivity.class);
+                startActivity(fragmentIntent);
+            }
+
 
         });
 
