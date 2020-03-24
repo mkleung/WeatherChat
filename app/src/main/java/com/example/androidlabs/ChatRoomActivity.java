@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -36,7 +37,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatRoomActivity";
 
-    FrameLayout fl;
     Boolean platform;
 
     @Override
@@ -116,21 +116,30 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
 
         // LAB 7 - FrameLayout
-        fl = (FrameLayout) findViewById(R.id.framelayout);
 
-            if (fl == null) {
-                // Phone
-                platform = true;
-                Log.i(TAG, "PHONE");
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
-            }
-            else {
-                // tablet
-                platform = false;
+        theList.setOnItemClickListener((list, item, position, id) -> {
 
-                Log.i(TAG, "TABLET");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, new DetailsFragment()).commit();
 
-            }
+            //Add fragment loading here from slide 14.
+//            if (isTablet != null) {
+//                // Phone
+//                platform = true;
+//                Log.i(TAG, "PHONE");
+//
+//
+//            }
+//            else {
+//                // tablet
+//                platform = false;
+//
+//                Log.i(TAG, "TABLET");
+//
+//            }
+
+        });
 
     }
 

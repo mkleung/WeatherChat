@@ -15,15 +15,16 @@
 
     <ListView
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/the_list"
         />
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/the_list"
-        android:id="@+id/framelayout">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/the_list"
+        android:id="@+id/fragmentLocation"
+        android:background="@color/colorAccent">
 
     </FrameLayout>
 
