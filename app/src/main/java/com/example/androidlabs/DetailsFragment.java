@@ -1,13 +1,16 @@
 package com.example.androidlabs;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ public class DetailsFragment extends Fragment {
 
     private boolean isTablet;
     private Bundle dataFromActivity;
-
+    private AppCompatActivity parentActivity;
 
     public void setTablet(boolean tablet) { isTablet = tablet; }
 
@@ -56,7 +59,23 @@ public class DetailsFragment extends Fragment {
             ((CheckBox) result.findViewById(R.id.fragmentCheckBox)).setChecked(false);
         }
 
+        // get the delete button, and add a click listener:
+        Button finishButton = (Button)result.findViewById(R.id.hideButton);
+        finishButton.setOnClickListener( clk -> {
+
+            //Tell the parent activity to remove
+            parentActivity.getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
+
         // Inflate the layout for this fragment
         return result;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        //context will either be FragmentExample for a tablet, or EmptyActivity for phone
+        parentActivity = (AppCompatActivity)context;
     }
 }

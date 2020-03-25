@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -39,6 +40,16 @@ public class EmptyActivity extends AppCompatActivity {
         else {
             ((CheckBox) findViewById(R.id.fragmentCheckBox)).setChecked(false);
         }
+
+
+        Button hideButton = (Button) findViewById(R.id.hideButton);
+        hideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
     }
 }

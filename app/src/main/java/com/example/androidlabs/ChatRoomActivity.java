@@ -35,6 +35,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     MyOwnAdapter myAdapter;
     SQLiteDatabase db;
 
+
     private static final String TAG = "ChatRoomActivity";
 
     Boolean isTablet;
@@ -42,6 +43,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     public static final String ITEM_POSITION = "POSITION";
     public static final String ITEM_ID = "ID";
 
+    DetailsFragment dFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         myAdapter = new MyOwnAdapter();
         theList.setAdapter(myAdapter);
 
+
+        dFragment = new DetailsFragment(); //add a DetailFragment
+
         // DELETE CHAT
         theList.setOnItemLongClickListener(( parent,  view,  position,  id) -> {
             Chat selectedChat = chatList.get(position);
@@ -70,6 +75,9 @@ public class ChatRoomActivity extends AppCompatActivity {
                         deleteContact(selectedChat); //remove the contact from database
                         chatList.remove(position); //remove the contact from contact list
                         myAdapter.notifyDataSetChanged();
+
+
+                        getSupportFragmentManager().beginTransaction().remove(dFragment).commit();
                     })
                     .setNegativeButton(R.string.alert_no, (click, arg) -> { })
                     .setView(getLayoutInflater().inflate(R.layout.row_layout_send, null))
@@ -129,7 +137,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             dataToPass.putString("id", Long.toString(id) );
 
             if (isTablet) {
-                DetailsFragment dFragment = new DetailsFragment(); //add a DetailFragment
+
                 dFragment.setArguments( dataToPass ); //pass it a bundle for information
                 getSupportFragmentManager()
                         .beginTransaction()
