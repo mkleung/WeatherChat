@@ -32,7 +32,7 @@ public class EmptyActivity extends AppCompatActivity {
         fragmentTexMessage.setText(message);
 
         TextView fragmentTextID = (TextView) findViewById(R.id.fragmentTextID);
-        fragmentTextID.setText("ID = " + id + " isSend = " + isSend);
+        fragmentTextID.setText("ID = " + id);
 
         if (isSend.equals("1")) {
             ((CheckBox) findViewById(R.id.fragmentCheckBox)).setChecked(true);

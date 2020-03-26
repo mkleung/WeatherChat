@@ -137,7 +137,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             dataToPass.putString("id", Long.toString(id) );
 
             if (isTablet) {
-
+                dFragment = new DetailsFragment();
                 dFragment.setArguments( dataToPass ); //pass it a bundle for information
                 getSupportFragmentManager()
                         .beginTransaction()
