@@ -74,6 +74,16 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(weatherIntent);
             }
         });
+
+
+        Button goToToolbarButton = (Button) findViewById(R.id.goToToolbarButton);
+        goToToolbarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toolbarIntent = new Intent(getApplicationContext(), TestToolbar.class);
+                startActivityForResult(toolbarIntent, 1);
+            }
+        });
     }
 
     @Override

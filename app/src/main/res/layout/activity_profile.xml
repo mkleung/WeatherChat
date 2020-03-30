@@ -80,5 +80,11 @@
         android:text="@string/profile_weatherButton"
         android:nextFocusUp="@id/chatButton" />
 
+    <Button
+        android:id="@+id/goToToolbarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Toolbar page" />
+
 
 </LinearLayout>
