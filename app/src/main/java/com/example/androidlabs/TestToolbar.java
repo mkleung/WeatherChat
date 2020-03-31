@@ -102,17 +102,17 @@ public class TestToolbar extends AppCompatActivity  implements NavigationView.On
         switch(item.getItemId())
         {
             case R.id.itemChat:
-                message = "You go to chat page";
+//                message = "You go to chat page";
                 Intent chatIntent = new Intent(getApplicationContext(), ChatRoomActivity.class);
                 startActivity(chatIntent);
                 break;
             case R.id.itemWeather:
-                message = "You go to weather page";
+//                message = "You go to weather page";
                 Intent weatherIntent = new Intent(getApplicationContext(), WeatherForecast.class);
                 startActivity(weatherIntent);
                 break;
             case R.id.itemLogin:
-                message = "You go to login page";
+//                message = "You go to login page";
                 finish();
 //                Intent loginIntent = new Intent(getApplicationContext(), WeatherForecast.class);
 //                startActivity(loginIntent);
@@ -122,7 +122,7 @@ public class TestToolbar extends AppCompatActivity  implements NavigationView.On
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
 
-        Toast.makeText(this, "NavigationDrawer: " + message, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "NavigationDrawer: " + message, Toast.LENGTH_LONG).show();
         return false;
     }
 
