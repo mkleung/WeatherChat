@@ -54,12 +54,23 @@ public class TestToolbar extends AppCompatActivity {
         switch(item.getItemId())
         {
             //what to do when the menu item is selected:
-            case R.id.item3:
-                message = "You clicked on the overflow menu";
+            case R.id.item1:
+                message = "You clicked item 1";
                 break;
-
+//            case R.id.search_item:
+//                message = "You clicked on the search";
+//                break;
+            case R.id.item2:
+                message = "You clicked item 2";
+                break;
+            case R.id.item3:
+                message = "You clicked item 3";
+                break;
+            case R.id.item4:
+                message = "You clicked on overflow menu";
+                break;
         }
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         return true;
     }
 

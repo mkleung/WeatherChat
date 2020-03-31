@@ -2,22 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/item1"
-        android:icon="@drawable/cloud"
-        android:title="Choice 1"
-        app:showAsAction="ifRoom"
-        android:orderInCategory="1"  />
 
-    <item android:id="@+id/item2"
-        android:icon="@drawable/edit"
-        android:title="Choice 2"
-        app:showAsAction="ifRoom"
-        android:orderInCategory="2" />
 
-    <item android:id="@+id/item3"
-        android:icon="@drawable/plus"
-        android:title="Choice 3"
+<!--    <item android:id="@+id/search_item"-->
+<!--        android:orderInCategory="50"-->
+<!--        app:actionViewClass="android.widget.SearchView"-->
+<!--        android:icon="@android:drawable/ic_search_category_default"-->
+<!--        app:showAsAction="always|collapseActionView"-->
+<!--        android:title="Search"/>    &lt;!&ndash; This uses showAsAction=always, so look at icon= parameter &ndash;&gt;-->
+
+        <item android:id="@+id/item1"
+            android:title="Choice 1"
+            android:icon="@drawable/edit"
+            android:orderInCategory="100"
+            app:showAsAction="always"/>  <!-- This uses showAsAction=always, so look at icon= parameter -->
+
+        <item android:id="@+id/item2"
+            android:icon="@drawable/plus"
+            android:title="Choice 2"
+            app:showAsAction="always"
+            android:orderInCategory="200"/> <!-- This uses showAsAction=never, so look at title= parameter -->
+
+        <item android:id="@+id/item3"
+            android:icon="@drawable/cloud"
+            android:orderInCategory="300"
+            app:showAsAction="always"
+            android:title="Choice 3"/>
+
+    <item android:id="@+id/item4"
+
+        android:orderInCategory="400"
         app:showAsAction="never"
-        android:orderInCategory="3" />
-
+        android:title="Choice 4"/>
 </menu>
