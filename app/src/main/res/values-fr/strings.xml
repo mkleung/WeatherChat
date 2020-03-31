@@ -52,4 +52,9 @@
     <string name="maxTemperature">Température maximale:</string>
     <string name="weather_uv">Niveau uv :</string>
 
+
+    <!-- Lab 8 -->
+    <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
+
 </resources>

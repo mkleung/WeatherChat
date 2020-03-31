@@ -33,5 +33,5 @@
 
         android:orderInCategory="400"
         app:showAsAction="never"
-        android:title="Choice 4"/>
+        android:title="About"/>
 </menu>

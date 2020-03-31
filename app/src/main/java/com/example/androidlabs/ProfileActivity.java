@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toolbarIntent = new Intent(getApplicationContext(), TestToolbar.class);
-                startActivityForResult(toolbarIntent, 1);
+                startActivityForResult(toolbarIntent, 500);
             }
         });
     }
@@ -95,7 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
                 mImageButton.setImageBitmap(bitmap);
             }
         }
-        Log.e(ACTIVITY_NAME, "In function: onActivityResult");
+        // Lab 8
+        else if (requestCode == 500) {
+            finish();
+        }
+        Log.e(ACTIVITY_NAME, "In function: onActivityResult" + requestCode);
     }
 
     @Override
